@@ -2,7 +2,12 @@
 import { loadSandpackClient, type ClientOptions, type SandboxSetup, type SandpackClient } from "@codesandbox/sandpack-client"
 import { onMounted, ref } from 'vue';
 
-const code = ref('')
+const code = ref(`
+  let counter = 0
+  setInterval(() => {
+    document.getElementById("app").textContent = "Hello World " + counter++;
+  }, 1000)
+`)
 const htmlCode = ref(`<body><div id="app">Hello World 5!</div><script src="/index.js" /></body`)
 let sandPackClient: SandpackClient
 
@@ -41,10 +46,10 @@ onMounted(async () => {
       })},
 
       // Index file
-      "/index.js": { code: ``},
+      "/index.js": { code: `${code.value}`},
       
       // Main file
-      "/index.html": { code: `<body><div id="app">Hello World 2!</div><script src="/index.js" /></body` },
+      "/index.html": { code: `${htmlCode.value}` },
     },
     entry: '/index.html', 
   };
